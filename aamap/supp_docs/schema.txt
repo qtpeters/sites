@@ -1,0 +1,56 @@
+mysql> describe aagroup;
++----------+----------+------+-----+---------+----------------+
+| Field    | Type     | Null | Key | Default | Extra          |
++----------+----------+------+-----+---------+----------------+
+| id       | int(11)  | NO   | MUL | NULL    | auto_increment |
+| gp_name  | longtext | YES  |     | NULL    |                |
+| AAIG_num | int(11)  | YES  |     | NULL    |                |
+| GSO_num  | longtext | YES  |     | NULL    |                |
+| GSR      | longtext | YES  |     | NULL    |                |
+| Alt-GSR  | longtext | YES  |     | NULL    |                |
+| IGR      | longtext | YES  |     | NULL    |                |
+| Alt-IGR  | longtext | YES  |     | NULL    |                |
++----------+----------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> describe meeting;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int(11)      | NO   | PRI | 0       |       |
+| mtg_type    | int(5)       | NO   |     | NULL    |       |
+| day         | int(11)      | YES  |     | NULL    |       |
+| time        | longtext     | YES  |     | NULL    |       |
+| language    | longtext     | YES  |     | NULL    |       |
+| mtg_notes   | varchar(255) | NO   |     | NULL    |       |
+| group_id    | int(11)      | YES  |     | NULL    |       |
+| location_id | int(11)      | YES  |     | NULL    |       |
+| Code        | longtext     | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> describe location;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| id       | int(11)     | NO   | MUL | NULL    | auto_increment |
+| loc_name | longtext    | YES  |     | NULL    |                |
+| addr1    | longtext    | YES  |     | NULL    |                |
+| addr2    | longtext    | YES  |     | NULL    |                |
+| notes    | longtext    | YES  |     | NULL    |                |
+| city     | longtext    | YES  |     | NULL    |                |
+| county   | longtext    | YES  |     | NULL    |                |
+| mapquest | longtext    | YES  |     | NULL    |                |
+| latlong  | varchar(30) | YES  |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+9 rows in set (0.00 sec)
+
+mysql> describe type;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int(11)      | NO   | PRI | NULL    | auto_increment |
+| mtg_type | varchar(255) | NO   |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+

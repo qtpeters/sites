@@ -1,0 +1,1 @@
+SELECT a.gp_name, a.AAIG_num, m.day, m.time, m.language, m.code as type, l.loc_name, l.addr1, l.city, l.county, l.latlong FROM aagroup as a, meeting as m, location as l, type as t WHERE a.id=m.group_id AND l.id=m.location_id AND t.id=m.mtg_type AND m.day=3 AND m.code RLIKE 'G' ORDER BY l.latlong

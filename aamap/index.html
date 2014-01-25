@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	
+ 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="style/main.css"/>
+	
+	<script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript"src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_HKoCcs01QpQ8j7MBLlGBBZpYvgyN8AE&sensor=true"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  
+  </head>
+  <body>
+	<div id="centering">
+		<div id="container">
+			<div id="formDiv">
+				<div id="mapContainer">
+					<div id="searchCtrl" ng-controller="SearchController">
+						<form ng-submit="search()">
+							
+						<span class="dayfield">
+							<label>Day:</label> 
+							<select  ng-model="day" 
+							ng-options="day.value as day.name for day in days" >
+								<option value="">--- Any ---</option>
+							</select>
+						</span>
+
+						<span class="timefield">
+							<label>Time:</label> 
+							<select ng-model="stime" 
+							ng-options="hour.mil as hour.std for hour in hours"> 
+								<option value="">--- Any ---</option>
+							</select> 
+							to
+							<select ng-model="etime" ng-options="hour.mil as hour.std for hour in hours"> 
+								<option value="">--- Any ---</option>
+							</select>
+						</span>
+
+						<span class="typefield">
+							<label>Type:</label> 
+							<select ng-model="type"
+							ng-options="t.code as t.type for t in types"> 
+								<option value="">--- Any ---</option>
+							</select>
+						</span>
+	
+						<span class="searchfield">
+							<input type="submit" value="Search" />
+						</span>
+						</form>
+					</div>
+
+					<div id="map-canvas"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tabs">
+
+	</div>
+
+  </body>
+</html>
+
