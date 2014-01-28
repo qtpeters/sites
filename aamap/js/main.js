@@ -155,10 +155,12 @@ var MapModule = ( function() {
 
 
 	return {
-		getMarkers: function( params, baseUrl, $http ) {
+		getMarkers: function( params, $http ) {
+			
+			// TODO Set up MySQL on localhost
 			var promise = $http({
 				method: 'GET',
-				url: baseUrl + '/search.php' 
+				url: 'search.php' 
 				+ '?day=' + params.day 
 				+ '&stime=' + params.stime 
 				+ '&etime=' + params.etime
@@ -173,8 +175,8 @@ var MapModule = ( function() {
 
 				var results = d.results;
 
-				results.forEach( function( result ) {
-					var coords = result.latlong.split( ',' );
+				for ( result in results ) {
+					var coords = result.split( ',' );
 					var latlng = new google.maps.LatLng( coords[0], coords[1] );
 					
 					var marker = new google.maps.Marker({
@@ -189,7 +191,7 @@ var MapModule = ( function() {
 						InfoWindowFactory.getInfoWindow( result ).open( map, marker );
 					});
 				
-				});
+				};
 			});
 
 			promise.error( function( d, s, h, c ) {
@@ -229,12 +231,8 @@ function SearchController ( $scope, $http, $location ) {
 			etime: $scope.etime || 'any',
 			type: $scope.type || 'any'
 		}
-
-		var baseUrl = $location.protocol() 
-		+ "://" + $location.host() 
-		+ ":" + $location.port();
-
-		MapModule.getMarkers( params, baseUrl, $http );
+		
+		MapModule.getMarkers( params, $http );
 	}
 
 }
