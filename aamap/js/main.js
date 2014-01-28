@@ -77,7 +77,7 @@ var MapModule = ( function() {
 		var current = null;
 
 		return {
-			getInfoWindow: function( result ) {
+			buildListener: function( result, map, marker ) {
 
 				/* EXAMPLE RESULT ( result )
 				 * addr1: "4020 Hunting Creek Road"
@@ -94,17 +94,21 @@ var MapModule = ( function() {
 				var stdHr = TimeConverter.milToStd( result.time );
 				var dateTime = result.day + " @ " + stdHr;
 
-				var type = result.type
-				// Don't display Al-Anon
-				.replace( "A", "" )
-				.replace( "C", " Closed, " )
-				.replace( "W", " Wheelchair, " )
-				.replace( "G", " Women Only, " )
-				.replace( "S", " No Court Slips, " );
-	
-				var lastIndexOfComma = type.lastIndexOf( "," );
-				type = type.substring( 0, lastIndexOfComma );
-
+				var type = "";
+				if ( result.type !== null ) {
+				
+					type = result.type
+					// Don't display Al-Anon
+					.replace( "A", "" )
+					.replace( "C", " Closed, " )
+					.replace( "W", " Wheelchair, " )
+					.replace( "G", " Women Only, " )
+					.replace( "S", " No Court Slips, " );
+		
+					var lastIndexOfComma = type.lastIndexOf( "," );
+					type = type.substring( 0, lastIndexOfComma );
+				}
+				
 				var infoWindowContent = "<div class='locinfo'>";
 				infoWindowContent    += "<span class='aaignum'>" + result.AAIG_num + "</span><br />";
 				infoWindowContent    += "<span class='groupname'>" + result.gp_name + "</span><br />";
@@ -116,20 +120,26 @@ var MapModule = ( function() {
 				infoWindowContent    += "<span class='type'>Meeting Types: " + type + "</span>";
 				infoWindowContent    += "</div>";
 				
-				if ( current !== null ) {
-					current.close();
-					current = null;
-				}
-			
 				var latlng = result.latlong;
 				if ( ! ( latlng in resultHash ) ) {
 					resultHash[ latlng ] = new google.maps.InfoWindow({
 						content: infoWindowContent
 					});
-				} 
+				} 	
 				
-				current = resultHash[ latlng ];
-				return resultHash[ latlng ];
+				var listener = function() {
+					
+					if ( current !== null ) {
+						current.close();
+						current = null;
+					}
+					
+					current = resultHash[ latlng ];
+					current.open( map, marker );
+				}
+				
+				
+				return listener;
 			}
 		};
 
@@ -187,9 +197,11 @@ var MapModule = ( function() {
 					marker.setMap( map );
 					markers.push( marker );					
 	
-					google.maps.event.addListener( marker, 'click', function() {
-						InfoWindowFactory.getInfoWindow( result ).open( map, marker );
-					});
+					var first = results[ result ][0];
+					
+					var listener = InfoWindowFactory.buildListener( first, map, marker );
+					
+					google.maps.event.addListener( marker, 'click', listener );
 				
 				};
 			});
